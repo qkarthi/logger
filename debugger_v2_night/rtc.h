@@ -1,13 +1,12 @@
 #include <Wire.h> 
-#include <RtcDS1307.h>
-RtcDS1307<TwoWire> Rtc(Wire);
+#include <RtcDS3231.h>
+RtcDS3231<TwoWire> Rtc(Wire);
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 char time_stamp_string[20];
 
 void rtc_setup_func() {
   Rtc.Begin();
-  Rtc.SetSquareWavePin(DS1307SquareWaveOut_Low);
 }
 
 int rtc_month() {
