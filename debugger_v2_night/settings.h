@@ -1,11 +1,8 @@
-#define HW_SERIAL_BAUD_RATE 115200
-#define SW_SERIAL_BAUD_RATE 115200
+#define HW_SERIAL_BAUD_RATE 9600
 #define CURRENT_YEAR 2018
 #define FILE_NAME_DEFAULT "report.txt"   //  <~~~~ if FILE_NAME_TIME_STAMP is false it will make all log into a same file.
-#define FILE_NAME_TIME_STAMP true      //  <~~~~ make ' true ' if you want the log report file in terms of time stamp
-#define QUICK_BOOT true                         //  <~~~~ skip all testing sequence when it set to ' true '
-#define RESETER_PIN_PULLUP 1              //  <~~~~ reseter always stay high if 1 is given , or low if 0 is given .
-#define RESET_SLAVE_AFTER_BOOT true // <~~~~ reset after the boot
+#define FILE_NAME_TIME_STAMP true      //  <~~~~ make ' true ' if you want the log report file in terms of time stamp.
+#define QUICK_BOOT true                         //  <~~~~ skip all testing sequence when it set to ' true '.
 
 /*******************************************************************************
   project name : IOTICS - misc - debugger

@@ -3,7 +3,6 @@
 #include "led.h"
 #include "rtc.h"
 #include "sd_card.h"
-#include "reseter.h"
 #include "button.h"
 
 String serial_str;
@@ -42,9 +41,6 @@ void loop() {
   if (sd_card_mount_pass_var) {
     if (!logging_init) {
       data_logger(rtc_timestamp() + "=AUTO_LOGGING_STARTED" + "@" + String(millis()) );
-      if (RESET_SLAVE_AFTER_BOOT) {
-        reset_slave();
-      }
       logging_init = true;
     }
     time_note();
