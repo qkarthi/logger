@@ -12,7 +12,7 @@ bool logging_init = false;
 char buffer_char;
 int serial_char_count = 0;
 unsigned long rst_limit_millis = 108000000;
-
+unsigned long self_logger_millis = 900000;
 bool card_delayed_to_insert = false ;
 void(* rstFunc) (void) = 0;
 void setup() {
@@ -81,6 +81,10 @@ void loop() {
   if (millis() > rst_limit_millis) {
     sys_logger(rtc_timestamp() + "=RB@" + String(millis()) );
     rstFunc();
+  }
+  if(millis() >= self_logger_millis){
+    self_logger_millis=millis()+self_logger_millis;
+    sys_logger(rtc_timestamp() + "=AL@" + String(millis()) );
   }
 }
 
