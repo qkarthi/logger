@@ -4,6 +4,7 @@ RtcDS3231<TwoWire> Rtc(Wire);
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 char time_stamp_string[20];
+String Klogger_time_stamp = "";
 
 void rtc_setup_func() {
   Rtc.Begin();

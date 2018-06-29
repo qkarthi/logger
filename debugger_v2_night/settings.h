@@ -1,8 +1,8 @@
 #define HW_SERIAL_BAUD_RATE 9600
 #define CURRENT_YEAR 2018
 #define FILE_NAME_DEFAULT "report.txt"   //  <~~~~ if FILE_NAME_TIME_STAMP is false it will make all log into a same file.
-#define FILE_NAME_TIME_STAMP true      //  <~~~~ make ' true ' if you want the log report file in terms of time stamp.
-#define QUICK_BOOT true                         //  <~~~~ skip all testing sequence when it set to ' true '.
+#define FILE_NAME_TIME_STAMP false        //  <~~~~ make ' true ' if you want the log report file in terms of time stamp.
+#define QUICK_BOOT true                  //  <~~~~ skip all testing sequence when it set to ' true '.
 
 /*******************************************************************************
   project name : IOTICS - misc - debugger
