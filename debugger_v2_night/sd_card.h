@@ -7,9 +7,14 @@ bool card_removed_run_state = false;
 String card_removed_time_stamp = "";
 
 Sd2Card sd_mmc_card;
-File myFile;
+
 File dataFile;
 
+void sys_logger(String data_str) {
+  dataFile = SD.open("syslog.txt", FILE_WRITE);
+  dataFile.println(data_str);
+  dataFile.close();
+}
 void self_sd_checkup() {
   if (!SD.begin(CHIP_SELECT))
   {
@@ -25,9 +30,9 @@ void self_sd_checkup() {
   }
 }
 void file_create_func(String file_name) {
-  myFile = SD.open(file_name, FILE_WRITE);
-  myFile.close();
-  //Serial.println(file_name);
+  dataFile = SD.open(file_name, FILE_WRITE);
+  dataFile.close();
+  sys_logger(rtc_timestamp() + "=F_CRE:" + ( file_name ));
 }
 
 void default_file_checkup() {
@@ -35,6 +40,7 @@ void default_file_checkup() {
     if (!QUICK_BOOT) {
       led_blynk_func(ACK_LED, 2, 500);
     }
+    sys_logger(rtc_timestamp() + "=F_EX:" + String(FILE_NAME_DEFAULT ));
   } else {
     file_create_func(FILE_NAME_DEFAULT);
   }
@@ -55,6 +61,7 @@ void data_logger(String data_str) {
   }
 }
 
+
 void sd_mmc_unplugged_check() {
   if (!sd_mmc_card.init(SPI_HALF_SPEED, CHIP_SELECT)) {
     if (!card_removed_run_state) {
@@ -69,15 +76,17 @@ void sd_mmc_unplugged_check() {
       if (!FILE_NAME_TIME_STAMP) {
         default_file_checkup();
       } else {
+        delay(200);
+       sys_logger("<_"+rtc_timestamp()+"_>");
+       sys_logger("=LGR_STD_T-" + Klogger_time_stamp);
+       sys_logger("=RM-" + card_removed_time_stamp);
+       sys_logger("=IN @" + String(millis()));
         current_file_name = (String(rtc_file_name_time_stamp()) + ".txt");
         if (!SD.exists(current_file_name)) {
+          sys_logger("=NO_F:" + current_file_name );
           file_create_func(current_file_name);
         }
       }
-      data_logger(rtc_timestamp() + "=LOGGER_STARTED_TIME" + "  -  " + Klogger_time_stamp);
-      data_logger(rtc_timestamp() + "=MEMORY_CARD_REMOVED" + "  -  " + card_removed_time_stamp );
-      data_logger(rtc_timestamp() + "=MEMORY_CARD_INSERTED_AT_THIS_TIMESTAMP" );
-      data_logger(rtc_timestamp() + "=MEMORY_CARD_WRITE_STARTED" + "  -  " + "millis -> " + String(millis()) );
     }
   }
 }

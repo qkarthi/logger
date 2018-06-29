@@ -43,14 +43,13 @@ void loop() {
           file_create_func(current_file_name);
         }
       }
-      data_logger(rtc_timestamp() + "=LOGGER_STARTED_TIME" + "  -  " + Klogger_time_stamp);
+      sys_logger(rtc_timestamp() + "=LGR_STD-" + Klogger_time_stamp);
       if (card_delayed_to_insert) {
-        data_logger(rtc_timestamp() + "=CARD_NOT_PRESENT_DURING_BOOT" );
-        data_logger(rtc_timestamp() + "=MEMORY_CARD_INSERTED_AT_THIS_TIMESTAMP");
+        sys_logger(rtc_timestamp() + "=NO_SD_BOOT" );
       } else {
-        data_logger(rtc_timestamp() + "=CARD_PRESENT_DURING_BOOT" );
+        sys_logger(rtc_timestamp() + "=SD_BOOT" );
       }
-      data_logger(rtc_timestamp() + "=MEMORY_CARD_WRITE_STARTED" + "  -  " + "millis -> " + String(millis()) );
+      sys_logger(rtc_timestamp() + "=SD_INS_&_W_STD-millis->" + String(millis()) );
       logging_init = true ;
     }
     time_note();
@@ -80,10 +79,9 @@ void loop() {
   }
 
   if (millis() > rst_limit_millis) {
-    data_logger(rtc_timestamp() + " = SYSTEM_REBOOT" + "@" + String(millis()) );
+    sys_logger(rtc_timestamp() + "=RB@" + String(millis()) );
     rstFunc();
   }
-
 }
 
 
