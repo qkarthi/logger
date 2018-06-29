@@ -11,9 +11,8 @@ int  work_indicator_status = false;
 bool logging_init = false;
 char buffer_char;
 int serial_char_count = 0;
-//unsigned long rst_limit_millis = 108000000;
+unsigned long rst_limit_millis = 108000000;
 
-unsigned long rst_limit_millis = 60000;
 bool card_delayed_to_insert = false ;
 void(* rstFunc) (void) = 0;
 void setup() {
@@ -27,7 +26,7 @@ void setup() {
   }
   rtc_setup_func();
   self_rtc_checkup();
-  Klogger_time_stamp = String(rtc_file_name_time_stamp());
+  Klogger_time_stamp = String(rtc_timestamp());
   self_sd_checkup();
   button_setup();
 
@@ -47,10 +46,11 @@ void loop() {
       data_logger(rtc_timestamp() + "=LOGGER_STARTED_TIME" + "  -  " + Klogger_time_stamp);
       if (card_delayed_to_insert) {
         data_logger(rtc_timestamp() + "=CARD_NOT_PRESENT_DURING_BOOT" );
+        data_logger(rtc_timestamp() + "=MEMORY_CARD_INSERTED_AT_THIS_TIMESTAMP");
       } else {
         data_logger(rtc_timestamp() + "=CARD_PRESENT_DURING_BOOT" );
       }
-      data_logger(rtc_timestamp() + "=AUTO_LOGGING_STARTED" + "  -  " + "millis -> " + String(millis()) );
+      data_logger(rtc_timestamp() + "=MEMORY_CARD_WRITE_STARTED" + "  -  " + "millis -> " + String(millis()) );
       logging_init = true ;
     }
     time_note();

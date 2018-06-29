@@ -1,4 +1,4 @@
-#include <Wire.h> 
+#include <Wire.h>
 #include <RtcDS3231.h>
 RtcDS3231<TwoWire> Rtc(Wire);
 
@@ -47,24 +47,23 @@ String rtc_timestamp() {
 }
 String rtc_file_name_time_stamp() {
   RtcDateTime now = Rtc.GetDateTime();
-  snprintf_P(time_stamp_string, countof(time_stamp_string), PSTR("%02u%02u%02u%02u"),
+  snprintf_P(time_stamp_string, countof(time_stamp_string), PSTR("%04u%02u%02u"),
+             now.Year(),
              now.Month(),
-             now.Day(),
-             now.Hour(),
-             now.Minute()
-           );
+             now.Day()
+            );
   return (time_stamp_string);
 }
 
-void self_rtc_checkup(){
-  if(rtc_year()>=CURRENT_YEAR)
+void self_rtc_checkup() {
+  if (rtc_year() >= CURRENT_YEAR)
   {
-    if(!QUICK_BOOT){
-    led_blynk_func(WARNING_LED,2,500);
+    if (!QUICK_BOOT) {
+      led_blynk_func(WARNING_LED, 2, 500);
     }
   }
   else
   {
-   led_on(WARNING_LED);
+    led_on(WARNING_LED);
   }
 }

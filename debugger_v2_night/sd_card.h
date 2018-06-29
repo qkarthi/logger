@@ -58,12 +58,10 @@ void data_logger(String data_str) {
 void sd_mmc_unplugged_check() {
   if (!sd_mmc_card.init(SPI_HALF_SPEED, CHIP_SELECT)) {
     if (!card_removed_run_state) {
-      card_removed_time_stamp = (String(rtc_file_name_time_stamp()));
+      card_removed_time_stamp = (String(rtc_timestamp()));
     }
     digitalWrite(ERROR_LED, HIGH);
     card_removed_run_state = true ;
-
-    return;
   } else {
     if (card_removed_run_state) {
       digitalWrite(ERROR_LED, LOW);
@@ -78,8 +76,8 @@ void sd_mmc_unplugged_check() {
       }
       data_logger(rtc_timestamp() + "=LOGGER_STARTED_TIME" + "  -  " + Klogger_time_stamp);
       data_logger(rtc_timestamp() + "=MEMORY_CARD_REMOVED" + "  -  " + card_removed_time_stamp );
-      data_logger(rtc_timestamp() + "=MEMORY_CARD_INSERTED" );
-      data_logger(rtc_timestamp() + "=LOGGING_TIMESTAMP" + "  -  " + "millis -> " + String(millis()));
+      data_logger(rtc_timestamp() + "=MEMORY_CARD_INSERTED_AT_THIS_TIMESTAMP" );
+      data_logger(rtc_timestamp() + "=MEMORY_CARD_WRITE_STARTED" + "  -  " + "millis -> " + String(millis()) );
     }
   }
 }
