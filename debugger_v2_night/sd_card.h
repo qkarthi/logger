@@ -6,6 +6,9 @@ String current_file_name;
 bool card_removed_run_state = false;
 String card_removed_time_stamp = "";
 
+unsigned long self_logger_millis = 0;
+unsigned long self_logger_millis_interval = 900000;
+
 Sd2Card sd_mmc_card;
 
 File dataFile;
@@ -70,6 +73,12 @@ void sd_mmc_unplugged_check() {
     digitalWrite(ERROR_LED, HIGH);
     card_removed_run_state = true ;
   } else {
+
+    if ((millis() - self_logger_millis) >= self_logger_millis_interval) {
+      self_logger_millis = millis() ;
+      sys_logger(rtc_timestamp() + "=AL@" + String(millis()));
+    }
+
     if (card_removed_run_state) {
       digitalWrite(ERROR_LED, LOW);
       card_removed_run_state = false ;
@@ -77,10 +86,12 @@ void sd_mmc_unplugged_check() {
         default_file_checkup();
       } else {
         delay(200);
-       sys_logger("<_"+rtc_timestamp()+"_>");
-       sys_logger("=LGR_STD_T-" + Klogger_time_stamp);
-       sys_logger("=RM-" + card_removed_time_stamp);
-       sys_logger("=IN @" + String(millis()));
+        sys_logger(" ");
+        sys_logger("< " + String(LOGGER_NAME) + "-" + rtc_timestamp() + " >");
+        sys_logger("=SD_IN");
+        sys_logger("=LGR_STD_T-" + Klogger_time_stamp);
+        sys_logger("=PRV_SD_RM-" + card_removed_time_stamp);
+        sys_logger(" ");
         current_file_name = (String(rtc_file_name_time_stamp()) + ".txt");
         if (!SD.exists(current_file_name)) {
           sys_logger("=NO_F:" + current_file_name );

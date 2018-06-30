@@ -11,8 +11,9 @@ int  work_indicator_status = false;
 bool logging_init = false;
 char buffer_char;
 int serial_char_count = 0;
+
 unsigned long rst_limit_millis = 108000000;
-unsigned long self_logger_millis = 900000;
+
 bool card_delayed_to_insert = false ;
 void(* rstFunc) (void) = 0;
 void setup() {
@@ -43,6 +44,8 @@ void loop() {
           file_create_func(current_file_name);
         }
       }
+
+      sys_logger("< " + String(LOGGER_NAME) + "-" + rtc_timestamp() + " >");
       sys_logger(rtc_timestamp() + "=LGR_STD-" + Klogger_time_stamp);
       if (card_delayed_to_insert) {
         sys_logger(rtc_timestamp() + "=NO_SD_BOOT" );
@@ -50,6 +53,7 @@ void loop() {
         sys_logger(rtc_timestamp() + "=SD_BOOT" );
       }
       sys_logger(rtc_timestamp() + "=SD_INS_&_W_STD-millis->" + String(millis()) );
+      sys_logger(" ");
       logging_init = true ;
     }
     time_note();
@@ -72,6 +76,7 @@ void loop() {
         }
       }
     }
+
     sd_mmc_unplugged_check();
   } else {
     card_delayed_to_insert = true ;
@@ -79,12 +84,10 @@ void loop() {
   }
 
   if (millis() > rst_limit_millis) {
-    sys_logger(rtc_timestamp() + "=RB@" + String(millis()) );
+    if (!card_removed_run_state) {
+      sys_logger(rtc_timestamp() + "=RB@" + String(millis()));
+    }
     rstFunc();
-  }
-  if(millis() >= self_logger_millis){
-    self_logger_millis=millis()+self_logger_millis;
-    sys_logger(rtc_timestamp() + "=AL@" + String(millis()) );
   }
 }
 
