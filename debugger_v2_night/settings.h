@@ -3,13 +3,13 @@
 #define FILE_NAME_DEFAULT "report.txt"   //  <~~~~ if FILE_NAME_TIME_STAMP is false it will make all log into a same file.
 #define FILE_NAME_TIME_STAMP true        //  <~~~~ make ' true ' if you want the log report file in terms of time stamp.
 #define QUICK_BOOT true                  //  <~~~~ skip all testing sequence when it set to ' true '.
-#define LOGGER_NAME "iot_lgr_01"         //  <~~~~ provide a new name here
+#define LOGGER_NAME "lgr_02"         //  <~~~~ provide a new name here
 /*******************************************************************************
-  project name : IOTICS - misc - debugger
+  project name : debugger
   version : v1.0
   date of project start : 4-june-2018.
   developer : karthikeyan periyasamy
-  email : karthik@iotics.io
+  email : qkarthi@gmail.com
 
   project requirements  :
   1.recording the serial (rx) data from external device / connections and write the data to sd card. <~~~~ done
